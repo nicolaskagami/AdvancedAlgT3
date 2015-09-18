@@ -38,6 +38,7 @@ class FSgraph
         void addEdge(unsigned vert,unsigned tgt,unsigned wht);
         void print();
 
+        void addPhantomEdge(unsigned vert,unsigned tgt);
         unsigned findEdge(unsigned u, unsigned v);
         unsigned source;
         unsigned target;

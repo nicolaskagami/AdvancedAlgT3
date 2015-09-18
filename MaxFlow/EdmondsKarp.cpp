@@ -6,16 +6,23 @@ EdmondsKarp::EdmondsKarp(FSgraph * g)
     graph = g;
     src = g->source;
     tgt = g->target;
-    parent = (unsigned *) malloc(g->numVerts);
+    parent = (unsigned *) malloc(g->numVerts*sizeof(unsigned));
+    visited = (bool *) malloc(graph->numVerts*sizeof(bool));
+    distances = (unsigned *) malloc(graph->numVerts*sizeof(unsigned));
 
     //Find path
     unsigned u,p;
     flow = 0;
+
     while(findPath())
     {
+        printPath();
         unsigned pathFlow = getResidual(parent[tgt-1],tgt);
         for(p=tgt;p!=src;p=parent[p-1])
         {
+        printf("Path flow: %d %d\n",p,pathFlow);
+        if(pathFlow == 0)
+            graph->print();
             u = parent[p-1];
             if(getResidual(u,p)<pathFlow)
                 pathFlow=getResidual(u,p);
@@ -58,7 +65,10 @@ void EdmondsKarp::printPath()
     printf("Path:");
     for(unsigned p=tgt;p!=src;p=parent[p-1])
     {
-        printf("%d,",p);
+        if((p>0)&&(p<=graph->numVerts))
+            printf("%d,",p);
+        else
+            return;
     }
     printf("\n");
 }
@@ -67,11 +77,15 @@ bool EdmondsKarp::findPath()
     NHeap<unsigned> nh;
     nh.insert(src,0);
 
-    bool * visited;
-    visited = (bool *) calloc(graph->numVerts,sizeof(bool));
-    unsigned * distances;
-    distances = (unsigned *) calloc(graph->numVerts,sizeof(unsigned));
+    for(unsigned i=0;i<graph->numVerts;i++)
+    {
+        visited[i]=false;
+        distances[i] = (unsigned) -1;
+        parent[i] = (unsigned) 1;
+    }
+
     distances[src-1]= 0;
+    visited[src-1]= true;
 
     while(nh.occupation>0)
     {
@@ -89,6 +103,8 @@ bool EdmondsKarp::findPath()
             unsigned wht = graph->edges[b+i].residual;
             if(wht>0)
             {
+                if(neighbor==83)
+                    printf("FUCK ME: %d - %d,%d\n",p,neighbor,wht);
                 if(visited[neighbor-1])
                 {
                     if((value+wht)<(distances[neighbor-1]))
@@ -114,6 +130,8 @@ bool EdmondsKarp::findPath()
 EdmondsKarp::~EdmondsKarp()
 {
     free(parent);
+    free(visited);
+    free(distances);
 }
 int main(int argc, char ** argv)
 {

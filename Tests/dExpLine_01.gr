@@ -1,0 +1,14 @@
+c Double Exponential Line
+c 3 x 2 vertices, degree 2
+p max 8 9
+n 1 s
+n 8 t
+a 1 3 50000000
+a 1 2 50000000
+a 2 5 227629
+a 3 5 806290
+a 5 2 196054
+a 6 5 65203
+a 6 8 50000000
+a 7 5 319900
+a 7 8 50000000

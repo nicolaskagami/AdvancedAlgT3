@@ -6,7 +6,8 @@ FordFulkerson::FordFulkerson(FSgraph * g)
     graph = g;
     src = g->source;
     tgt = g->target;
-    parent = (unsigned *) malloc(g->numVerts);
+    parent = (unsigned *) malloc(g->numVerts*sizeof(unsigned));
+    visited = (bool *) calloc(graph->numVerts,sizeof(bool));
 
     //Find path
     unsigned u,p;
@@ -67,8 +68,11 @@ bool FordFulkerson::findPath()
     std::stack<unsigned> st;
     st.push(src);
 
-    bool * visited;
-    visited = (bool *) calloc(graph->numVerts,sizeof(bool));
+    for(unsigned i=0;i<graph->numVerts;i++)
+    {
+        visited[i]=false;
+        //parent[i] = (unsigned) 1;
+    }
     visited[src-1] = true;
 
     while(!st.empty())
@@ -97,6 +101,7 @@ bool FordFulkerson::findPath()
 FordFulkerson::~FordFulkerson()
 {
     free(parent);
+    free(visited);
 }
 int main(int argc, char ** argv)
 {

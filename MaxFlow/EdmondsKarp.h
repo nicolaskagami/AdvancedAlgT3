@@ -12,6 +12,9 @@ class EdmondsKarp
         unsigned * parent;
         unsigned flow;
 
+        bool * visited;
+        unsigned * distances;
+
         bool findPath();
         void printPath();
         EdmondsKarp(FSgraph * g);

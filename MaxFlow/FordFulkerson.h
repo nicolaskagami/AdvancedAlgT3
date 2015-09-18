@@ -12,6 +12,7 @@ class FordFulkerson
         FSgraph * graph;
         unsigned * parent;
         unsigned flow;
+        bool * visited;
 
         bool findPath();
         void printPath();

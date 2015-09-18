@@ -91,7 +91,7 @@ FSgraph::FSgraph(std::istream& in)
             char ac;
             arc >> ac >> u >> v >> w;
             addEdge(u,v,w);
-            addEdge(v,u,0); //Added for T3 Advanced Alg
+            addPhantomEdge(v,u); //Added for T3 Advanced Alg
             i++;
         }
     }
@@ -140,6 +140,14 @@ void FSgraph::addEdge(unsigned vert,unsigned tgt,unsigned wht)
 
     vertices[vert-1].edgeNum++;
 }
+void FSgraph::addPhantomEdge(unsigned vert, unsigned tgt)
+{
+    unsigned i = findEdge(vert,tgt); 
+    if(edges[i].target != tgt)    
+    {
+        addEdge(vert,tgt,0);
+    }
+}
 unsigned FSgraph::findEdge(unsigned u, unsigned v)
 {
    unsigned i,j;
@@ -148,7 +156,7 @@ unsigned FSgraph::findEdge(unsigned u, unsigned v)
         if(edges[i+j].target == v)
             return i+j;
    }
-   exit(1);
+   return 0;
 }
 void FSgraph::print()
 {

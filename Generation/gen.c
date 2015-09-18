@@ -20,7 +20,7 @@
 #define TRUE       1
 
 
-#define MAX_N     30000  
+#define MAX_N     1048576  
 /* #define MAX_N 60 */
 
 #define MAX_CAP   100000000
@@ -193,6 +193,7 @@ char *argv[];
   }
 
   GraphOutput(G, f, s, t);
+  return 0;
 }
 
 Graph *Mesh(d1, d2, r)
