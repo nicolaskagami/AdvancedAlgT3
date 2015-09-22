@@ -90,8 +90,8 @@ FSgraph::FSgraph(std::istream& in)
             unsigned u,v,w;
             char ac;
             arc >> ac >> u >> v >> w;
-            addEdge(u,v,w);
-            addPhantomEdge(v,u); //Added for T3 Advanced Alg
+            proposeEdge(u,v,w);
+            proposeEdge(v,u,0);
             i++;
         }
     }
@@ -140,13 +140,23 @@ void FSgraph::addEdge(unsigned vert,unsigned tgt,unsigned wht)
 
     vertices[vert-1].edgeNum++;
 }
-void FSgraph::addPhantomEdge(unsigned vert, unsigned tgt)
+void FSgraph::proposeEdge(unsigned vert, unsigned tgt,unsigned wht)
 {
-    unsigned i = findEdge(vert,tgt); 
-    if(edges[i].target != tgt)    
-    {
-        addEdge(vert,tgt,0);
-    }
+   unsigned i,j;
+   for(i=vertices[vert-1].index,j=0;j<vertices[vert-1].edgeNum;j++)
+   {
+        if(edges[i+j].target == tgt)
+        {
+            //It already exists, let the bigger prevail
+            if(wht>edges[i+j].weight) 
+            {
+                edges[i+j].weight = wht;
+                edges[i+j].residual = wht;
+            }
+            return;
+        }
+   }
+   addEdge(vert,tgt,wht);
 }
 unsigned FSgraph::findEdge(unsigned u, unsigned v)
 {

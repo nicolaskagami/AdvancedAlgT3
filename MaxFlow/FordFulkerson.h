@@ -14,6 +14,9 @@ class FordFulkerson
         unsigned flow;
         bool * visited;
 
+        unsigned expanded_verts;
+        unsigned paths_searched;
+
         bool findPath();
         void printPath();
         FordFulkerson(FSgraph * g);

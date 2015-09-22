@@ -12,11 +12,16 @@ for EXEC in EdmondsKarp FordFulkerson;
 do
     for file in ${TESTS}/*.gr;
     do
-        RESULT=$(${EXECDIR}/${EXEC} < ${file})
+        BENCHFILE=$(basename $file .gr | cut -d '_' -f1)
+        if [ ! -f "${BENCHMARKS}/${BENCHFILE}" ]
+        then
+            echo "Verts Edges Expanded_Verts Paths" > ${BENCHMARKS}/${BENCHFILE}
+        fi
+        RESULT=$(${EXECDIR}/${EXEC} < ${file} 2>> ${BENCHMARKS}/${BENCHFILE})
         ANSWER=$($VERIF < ${file})
         if [ "$RESULT" = "$ANSWER" ]
         then
-            echo "OK: $EXEC: $file"
+            echo "OK $EXEC: $file"
         else
             echo "Different: $EXEC: $file = $RESULT != $ANSWER"
         fi

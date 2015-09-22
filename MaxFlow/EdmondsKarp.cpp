@@ -12,18 +12,19 @@ EdmondsKarp::EdmondsKarp(FSgraph * g)
 
     //Find path
     unsigned u,p;
+    expanded_verts =0;
+    paths_searched = 0;
     flow = 0;
 
     while(findPath())
     {
-        printPath();
+        paths_searched++;
         unsigned pathFlow = getResidual(parent[tgt-1],tgt);
         for(p=tgt;p!=src;p=parent[p-1])
         {
-        printf("Path flow: %d %d\n",p,pathFlow);
-        if(pathFlow == 0)
-            graph->print();
             u = parent[p-1];
+            if(pathFlow ==0)
+                printf("FUCK");
             if(getResidual(u,p)<pathFlow)
                 pathFlow=getResidual(u,p);
         } 
@@ -89,6 +90,7 @@ bool EdmondsKarp::findPath()
 
     while(nh.occupation>0)
     {
+        expanded_verts++;
         unsigned p = nh.getMin();
         unsigned value = nh.getMinValue();
         nh.deleteMin();
@@ -103,8 +105,6 @@ bool EdmondsKarp::findPath()
             unsigned wht = graph->edges[b+i].residual;
             if(wht>0)
             {
-                if(neighbor==83)
-                    printf("FUCK ME: %d - %d,%d\n",p,neighbor,wht);
                 if(visited[neighbor-1])
                 {
                     if((value+wht)<(distances[neighbor-1]))
@@ -137,6 +137,7 @@ int main(int argc, char ** argv)
 {
     FSgraph gr(std::cin);
     EdmondsKarp EK(&gr);
+    std::cerr << EK.graph->numVerts << " " << EK.graph->numEdges/2 << " " << EK.paths_searched << " " << EK.expanded_verts << std::endl;
     std::cout << EK.flow << std::endl;
     return 0;
 }
