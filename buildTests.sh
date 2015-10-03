@@ -63,5 +63,4 @@ do
     then
         echo -e "\tGold Bad: i: ${i} Degree: $DEGREE"
     fi
-    echo ${i} Done
 done

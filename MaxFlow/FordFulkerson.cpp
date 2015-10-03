@@ -111,7 +111,7 @@ int main(int argc, char ** argv)
 {
     FSgraph gr(std::cin);
     FordFulkerson FF(&gr);
-    std::cerr << FF.graph->numVerts << " " << FF.graph->numEdges/2 << " " << FF.paths_searched << " " << FF.expanded_verts << std::endl;
+    std::cerr << "FF " << FF.graph->numVerts << " " << FF.graph->numEdges/2 << " " << FF.paths_searched << " " << FF.expanded_verts << std::endl;
     std::cout << FF.flow << std::endl;
     return 0;
 }

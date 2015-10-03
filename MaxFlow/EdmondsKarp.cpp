@@ -137,7 +137,7 @@ int main(int argc, char ** argv)
 {
     FSgraph gr(std::cin);
     EdmondsKarp EK(&gr);
-    std::cerr << EK.graph->numVerts << " " << EK.graph->numEdges/2 << " " << EK.paths_searched << " " << EK.expanded_verts << std::endl;
+    std::cerr << "EK " << EK.graph->numVerts << " " << EK.graph->numEdges/2 << " " << EK.paths_searched << " " << EK.expanded_verts << std::endl;
     std::cout << EK.flow << std::endl;
     return 0;
 }

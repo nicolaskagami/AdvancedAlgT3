@@ -15,7 +15,7 @@ do
         BENCHFILE=$(basename $file .gr | cut -d '_' -f1)
         if [ ! -f "${BENCHMARKS}/${BENCHFILE}" ]
         then
-            echo "Verts Edges Expanded_Verts Paths" > ${BENCHMARKS}/${BENCHFILE}
+            echo "Alg Verts Edges Expanded_Verts Paths" > ${BENCHMARKS}/${BENCHFILE}
         fi
         RESULT=$(${EXECDIR}/${EXEC} < ${file} 2>> ${BENCHMARKS}/${BENCHFILE})
         ANSWER=$($VERIF < ${file})
